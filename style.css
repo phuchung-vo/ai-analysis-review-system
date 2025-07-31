@@ -1,0 +1,20 @@
+body {
+	font-family: 'Noto Sans JP', sans-serif;
+}
+
+.minimal-shadow {
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.hover-lift {
+	transition: all 0.2s ease;
+}
+
+.hover-lift:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.japanese-border {
+	border: 1px solid #e5e7eb;
+}

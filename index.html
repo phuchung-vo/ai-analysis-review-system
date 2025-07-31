@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Analytics Evaluation System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-white text-gray-900 min-h-screen">
+    <!-- Loading State -->
+    <div id="loading" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-2 border-gray-300 border-t-gray-900 mx-auto mb-4"></div>
+            <p class="text-gray-600">データを読み込んでいます...</p>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8" id="main-content" style="display: none;">
+        <!-- Header -->
+        <div class="text-center mb-12 border-b border-gray-200 pb-8">
+            <h1 class="text-3xl font-light text-gray-900 mb-2">レビュー分析</h1>
+            <p class="text-gray-600 font-light">AI Analytics Evaluation System Dashboard</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-gray-100 rounded-lg p-1 japanese-border">
+                <button onclick="showTab('dashboard')" class="nav-tab px-6 py-2 rounded-md font-medium transition-all duration-200 bg-white text-gray-900 minimal-shadow" id="dashboard-tab">
+                    ダッシュボード
+                </button>
+                <button onclick="showTab('reviews')" class="nav-tab px-6 py-2 rounded-md font-medium transition-all duration-200 text-gray-600 hover:text-gray-900" id="reviews-tab">
+                    レビュー一覧
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboard-content" class="tab-content">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="bg-white japanese-border rounded-lg p-6 text-center hover-lift minimal-shadow">
+                    <div class="text-2xl font-light text-gray-900 mb-1" id="total-reviews">-</div>
+                    <div class="text-sm text-gray-600 font-light">総レビュー数</div>
+                </div>
+                <div class="bg-white japanese-border rounded-lg p-6 text-center hover-lift minimal-shadow">
+                    <div class="text-2xl font-light text-gray-900 mb-1" id="positive-reviews">-</div>
+                    <div class="text-sm text-gray-600 font-light">ポジティブ</div>
+                </div>
+                <div class="bg-white japanese-border rounded-lg p-6 text-center hover-lift minimal-shadow">
+                    <div class="text-2xl font-light text-gray-900 mb-1" id="negative-reviews">-</div>
+                    <div class="text-sm text-gray-600 font-light">ネガティブ</div>
+                </div>
+                <div class="bg-white japanese-border rounded-lg p-6 text-center hover-lift minimal-shadow">
+                    <div class="text-2xl font-light text-gray-900 mb-1" id="repurchase-rate">-</div>
+                    <div class="text-sm text-gray-600 font-light">再購入率</div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Sentiment Distribution -->
+                <div class="bg-white japanese-border rounded-lg p-6 minimal-shadow">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4 border-b border-gray-100 pb-2">
+                        感情分布
+                    </h3>
+                    <div class="h-64">
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Aspect Analysis -->
+                <div class="bg-white japanese-border rounded-lg p-6 minimal-shadow">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4 border-b border-gray-100 pb-2">
+                        アスペクト分析
+                    </h3>
+                    <div class="h-64">
+                        <canvas id="aspectChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentiment Scores -->
+            <div class="bg-white japanese-border rounded-lg p-6 minimal-shadow mb-12">
+                <h3 class="text-lg font-medium text-gray-900 mb-4 border-b border-gray-100 pb-2">
+                    感情スコアの推移
+                </h3>
+                <div class="h-64">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Use Cases & Issues -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white japanese-border rounded-lg p-6 minimal-shadow">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4 border-b border-gray-100 pb-2">
+                        使用用途
+                    </h3>
+                    <div class="space-y-2" id="use-cases-list">
+                        <!-- Use cases will be populated here -->
+                    </div>
+                </div>
+                <div class="bg-white japanese-border rounded-lg p-6 minimal-shadow">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4 border-b border-gray-100 pb-2">
+                        課題・問題点
+                    </h3>
+                    <div class="space-y-2" id="issues-list">
+                        <!-- Issues will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Content -->
+        <div id="reviews-content" class="tab-content hidden">
+            <div class="grid gap-4" id="reviews-list">
+                <!-- Reviews will be populated here -->
+            </div>
+        </div>
+
+        <!-- Review Detail Modal -->
+        <div id="reviewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto japanese-border">
+                <div class="flex justify-between items-center p-6 border-b border-gray-200">
+                    <h2 class="text-xl font-medium text-gray-900">詳細分析</h2>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-light">&times;</button>
+                </div>
+                <div id="modalContent" class="p-6"></div>
+            </div>
+        </div>
+    </div>
+     <script lang="javascript" src="datasets-generative/data.js"></script>
+    <script lang="javascript" src="main.js"></script>
+</body>
+</html>
