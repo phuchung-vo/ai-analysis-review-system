@@ -29,11 +29,13 @@ function updateStats() {
     const totalReviews = reviewsData.length;
     const positiveReviews = reviewsData.filter(r => r.overall_sentiment === 'positive').length;
     const negativeReviews = reviewsData.filter(r => r.overall_sentiment === 'negative').length;
+    const mixedReviews = reviewsData.filter(r => r.overall_sentiment === 'mixed').length;
     const repurchaseRate = totalReviews > 0 ? Math.round((reviewsData.filter(r => r.will_repurchase === 'true').length / totalReviews) * 100) : 0;
 
     document.getElementById('total-reviews').textContent = totalReviews;
     document.getElementById('positive-reviews').textContent = positiveReviews;
     document.getElementById('negative-reviews').textContent = negativeReviews;
+    document.getElementById('mixed-reviews').textContent = mixedReviews;
     document.getElementById('repurchase-rate').textContent = repurchaseRate + '%';
 }
 

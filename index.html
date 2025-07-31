@@ -20,13 +20,17 @@
 
     <div class="container mx-auto px-4 py-8" id="main-content" style="display: none;">
         <!-- Header -->
-        <div class="text-center mb-12 border-b border-gray-200 pb-8">
+        <div class="mb-12 border-b border-gray-200 pb-8">
             <h1 class="text-3xl font-light text-gray-900 mb-2">レビュー分析</h1>
             <p class="text-gray-600 font-light">AI Analytics Evaluation System Dashboard</p>
         </div>
 
+        <div class="mb-8">
+            <span class="font-bold">製品:</span><span> 【ふるさと納税】”ひなた舎”燻製からすみCUBE(25g)カラスミ 魚卵 珍味 常温 保存 おつまみ ボラ【B-18】【SA・Te黒潮】</span>
+        </div>
+
         <!-- Navigation Tabs -->
-        <div class="flex justify-center mb-8">
+        <div class="flex mb-8">
             <div class="bg-gray-100 rounded-lg p-1 japanese-border">
                 <button onclick="showTab('dashboard')" class="nav-tab px-6 py-2 rounded-md font-medium transition-all duration-200 bg-white text-gray-900 minimal-shadow" id="dashboard-tab">
                     ダッシュボード
@@ -40,7 +44,7 @@
         <!-- Dashboard Content -->
         <div id="dashboard-content" class="tab-content">
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
                 <div class="bg-white japanese-border rounded-lg p-6 text-center hover-lift minimal-shadow">
                     <div class="text-2xl font-light text-gray-900 mb-1" id="total-reviews">-</div>
                     <div class="text-sm text-gray-600 font-light">総レビュー数</div>
@@ -52,6 +56,10 @@
                 <div class="bg-white japanese-border rounded-lg p-6 text-center hover-lift minimal-shadow">
                     <div class="text-2xl font-light text-gray-900 mb-1" id="negative-reviews">-</div>
                     <div class="text-sm text-gray-600 font-light">ネガティブ</div>
+                </div>
+                    <div class="bg-white japanese-border rounded-lg p-6 text-center hover-lift minimal-shadow">
+                    <div class="text-2xl font-light text-gray-900 mb-1" id="mixed-reviews">-</div>
+                    <div class="text-sm text-gray-600 font-light">正常/中立</div>
                 </div>
                 <div class="bg-white japanese-border rounded-lg p-6 text-center hover-lift minimal-shadow">
                     <div class="text-2xl font-light text-gray-900 mb-1" id="repurchase-rate">-</div>
